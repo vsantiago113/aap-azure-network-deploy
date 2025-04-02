@@ -1,0 +1,15 @@
+---
+- name: Create a resource group
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/aap_survey.yml
+
+  tasks:
+    - name: Create a resource group
+      azure.azcollection.azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        location: "{{ location }}"
+...

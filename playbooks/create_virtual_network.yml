@@ -1,0 +1,16 @@
+---
+- name: Create a virtual network
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/aap_survey.yml
+
+  tasks:
+    - name: Create a virtual network
+      azure.azcollection.azure_rm_virtualnetwork:
+        resource_group: "{{ resource_group }}"
+        name: "{{ virtual_network }}"
+        address_prefixes_cidr: "{{ virtual_network_prefix }}"
+...

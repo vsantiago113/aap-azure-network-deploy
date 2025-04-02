@@ -1,0 +1,43 @@
+---
+- name: Create a Windows virtual machine with an interface
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/aap_survey.yml
+
+  tasks:
+    - name: Create a network interface
+      azure.azcollection.azure_rm_networkinterface:
+        resource_group: "{{ resource_group }}"
+        name: "{{ network_interface }}"
+        virtual_network: "{{ virtual_network }}"
+        subnet_name: "{{ subnet }}"
+        security_group: "{{ network_security_group }}"
+        create_with_security_group: false
+        ip_configurations:
+          - name: ipconfig1
+            public_ip_address_name: demo_public_ip
+            primary: true
+
+    - name: Create Windows virtual machine
+      azure.azcollection.azure_rm_virtualmachine:
+        resource_group: "{{ resource_group }}"
+        subscription_id: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
+        name: "{{ vm_name }}"
+        vm_size: "{{ vm_size }}"
+        admin_username: "{{ vm_admin_username }}"
+        admin_password: "{{ vm_admin_password }}"
+        network_interfaces: "{{ network_interface }}"
+        os_type: Windows
+        image:
+          offer: WindowsServer
+          publisher: MicrosoftWindowsServer
+          sku: 2022-Datacenter
+          version: latest
+        os_disk_name: demo_os_disk
+        os_disk_size_gb: 128
+        os_disk_caching: ReadWrite
+        managed_disk_type: Standard_LRS
+...

@@ -1,0 +1,38 @@
+---
+- name: Create s network security group with SSH and RDP access
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/aap_survey.yml
+
+  tasks:
+    - name: Create a network security group with SSH and RDP access
+      azure.azcollection.azure_rm_securitygroup:
+        resource_group: "{{ resource_group }}"
+        name: "{{ network_security_group }}"
+        purge_default_rules: true
+        purge_rules: true
+        rules:
+          - name: Allow-SSH
+            protocol: Tcp
+            access: Allow
+            priority: 1000
+            direction: Inbound
+            source_address_prefix: '*'
+            source_port_range: '*'
+            destination_address_prefix: '*'
+            destination_port_range: 22
+            description: Allow SSH access from any source
+          - name: Allow-RDP
+            protocol: Tcp
+            access: Allow
+            priority: 1001
+            direction: Inbound
+            source_address_prefix: '*'
+            source_port_range: '*'
+            destination_address_prefix: '*'
+            destination_port_range: 3389
+            description: Allow RDP access
+...

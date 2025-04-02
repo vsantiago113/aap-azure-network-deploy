@@ -1,0 +1,18 @@
+---
+- name: Create a subnet
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/aap_survey.yml
+
+  tasks:
+    - name: Create a subnet
+      azure.azcollection.azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        name: "{{ subnet }}"
+        address_prefix: "{{ subnet_address_prefix }}"
+        virtual_network: "{{ virtual_network }}"
+        security_group: "{{ network_security_group }}"
+...
