@@ -1,0 +1,39 @@
+---
+- name: Create CMDB entry for Azure host
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Simulate VM creation
+      ansible.builtin.set_fact:
+        instance:
+          name: test-vm99
+          managed_by: Ansible
+          public_ip_address: 192.168.1.99
+
+    - name: Register the newly-created VM instance
+      servicenow.itsm.configuration_item:
+        name: "{{ instance.name }}"
+        sys_class_name: cmdb_ci_vm_instance
+        ip_address: "{{ instance.public_ip_address }}"
+        other:
+          managed_by: "{{ instance.managed_by }}"
+      register: result
+
+    - name: Show sys_id
+      ansible.builtin.debug:
+        msg: "CMDB entry sys_id: {{ result.record }}"
+
+    # - name: Get all VM instances
+    #   servicenow.itsm.api_info:
+    #     resource: cmdb_ci_vm_instance
+    #     sysparm_query: ''
+    #   register: vm_list
+
+    # - name: Show full raw output
+    #   ansible.builtin.debug:
+    #     msg: "System ID: {{ vm.sys_id }}, VM Name: {{ vm.name }}, IP Address: {{ vm.ip_address }}, Managed By: {{ vm.managed_by }}"
+    #   loop_control:
+    #     loop_var: vm
+    #     label: "{{ vm.sys_id }}"
+    #   loop: "{{ vm_list.record }}"
+...
