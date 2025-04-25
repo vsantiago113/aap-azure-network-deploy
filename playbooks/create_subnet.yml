@@ -4,8 +4,8 @@
   connection: local
   gather_facts: false
 
-  vars_files:
-    - ../vars/aap_survey.yml
+  # vars_files:
+  #   - ../vars/aap_survey.yml
 
   tasks:
     - name: Create a subnet
