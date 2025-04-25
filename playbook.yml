@@ -13,120 +13,120 @@
         name: "{{ resource_group }}"
         location: "{{ location }}"
 
-- name: Create a virtual network
-  hosts: localhost
-  connection: local
-  gather_facts: false
+# - name: Create a virtual network
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
 
-  vars_files:
-    - ../vars/aap_survey.yml
+#   vars_files:
+#     - ../vars/aap_survey.yml
 
-  tasks:
-    - name: Create a virtual network
-      azure.azcollection.azure_rm_virtualnetwork:
-        resource_group: "{{ resource_group }}"
-        name: "{{ virtual_network }}"
-        address_prefixes_cidr: "{{ virtual_network_prefix }}"
+#   tasks:
+#     - name: Create a virtual network
+#       azure.azcollection.azure_rm_virtualnetwork:
+#         resource_group: "{{ resource_group }}"
+#         name: "{{ virtual_network }}"
+#         address_prefixes_cidr: "{{ virtual_network_prefix }}"
 
-- name: Create s network security group with SSH and RDP access
-  hosts: localhost
-  connection: local
-  gather_facts: false
+# - name: Create s network security group with SSH and RDP access
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
 
-  vars_files:
-    - ../vars/aap_survey.yml
+#   vars_files:
+#     - ../vars/aap_survey.yml
 
-  tasks:
-    - name: Create a network security group with SSH and RDP access
-      azure.azcollection.azure_rm_securitygroup:
-        resource_group: "{{ resource_group }}"
-        name: "{{ network_security_group }}"
-        purge_default_rules: true
-        purge_rules: true
-        rules:
-          - name: Allow-SSH
-            protocol: Tcp
-            access: Allow
-            priority: 1000
-            direction: Inbound
-            source_address_prefix: '*'
-            source_port_range: '*'
-            destination_address_prefix: '*'
-            destination_port_range: 22
-            description: Allow SSH access from any source
-          - name: Allow-RDP
-            protocol: Tcp
-            access: Allow
-            priority: 1001
-            direction: Inbound
-            source_address_prefix: '*'
-            source_port_range: '*'
-            destination_address_prefix: '*'
-            destination_port_range: 3389
-            description: Allow RDP access
+#   tasks:
+#     - name: Create a network security group with SSH and RDP access
+#       azure.azcollection.azure_rm_securitygroup:
+#         resource_group: "{{ resource_group }}"
+#         name: "{{ network_security_group }}"
+#         purge_default_rules: true
+#         purge_rules: true
+#         rules:
+#           - name: Allow-SSH
+#             protocol: Tcp
+#             access: Allow
+#             priority: 1000
+#             direction: Inbound
+#             source_address_prefix: '*'
+#             source_port_range: '*'
+#             destination_address_prefix: '*'
+#             destination_port_range: 22
+#             description: Allow SSH access from any source
+#           - name: Allow-RDP
+#             protocol: Tcp
+#             access: Allow
+#             priority: 1001
+#             direction: Inbound
+#             source_address_prefix: '*'
+#             source_port_range: '*'
+#             destination_address_prefix: '*'
+#             destination_port_range: 3389
+#             description: Allow RDP access
 
-- name: Create a subnet
-  hosts: localhost
-  connection: local
-  gather_facts: false
+# - name: Create a subnet
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
 
-  vars_files:
-    - ../vars/aap_survey.yml
+#   vars_files:
+#     - ../vars/aap_survey.yml
 
-  tasks:
-    - name: Create a subnet
-      azure.azcollection.azure_rm_subnet:
-        resource_group: "{{ resource_group }}"
-        name: "{{ subnet }}"
-        address_prefix: "{{ subnet_address_prefix }}"
-        virtual_network: "{{ virtual_network }}"
-        security_group: "{{ network_security_group }}"
+#   tasks:
+#     - name: Create a subnet
+#       azure.azcollection.azure_rm_subnet:
+#         resource_group: "{{ resource_group }}"
+#         name: "{{ subnet }}"
+#         address_prefix: "{{ subnet_address_prefix }}"
+#         virtual_network: "{{ virtual_network }}"
+#         security_group: "{{ network_security_group }}"
 
-- name: Create a Windows virtual machine with an interface
-  hosts: localhost
-  connection: local
-  gather_facts: false
+# - name: Create a Windows virtual machine with an interface
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
 
-  vars_files:
-    - ../vars/aap_survey.yml
+#   vars_files:
+#     - ../vars/aap_survey.yml
 
-  tasks:
-    - name: Create a network interface
-      azure.azcollection.azure_rm_networkinterface:
-        resource_group: "{{ resource_group }}"
-        name: "{{ network_interface }}"
-        virtual_network: "{{ virtual_network }}"
-        subnet_name: "{{ subnet }}"
-        security_group: "{{ network_security_group }}"
-        create_with_security_group: false
-        ip_configurations:
-          - name: ipconfig1
-            public_ip_address_name: demo_public_ip
-            primary: true
+#   tasks:
+#     - name: Create a network interface
+#       azure.azcollection.azure_rm_networkinterface:
+#         resource_group: "{{ resource_group }}"
+#         name: "{{ network_interface }}"
+#         virtual_network: "{{ virtual_network }}"
+#         subnet_name: "{{ subnet }}"
+#         security_group: "{{ network_security_group }}"
+#         create_with_security_group: false
+#         ip_configurations:
+#           - name: ipconfig1
+#             public_ip_address_name: demo_public_ip
+#             primary: true
 
-    - name: Create Windows virtual machine
-      azure.azcollection.azure_rm_virtualmachine:
-        resource_group: "{{ resource_group }}"
-        subscription_id: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
-        name: "{{ vm_name }}"
-        vm_size: "{{ vm_size }}"
-        admin_username: "{{ vm_admin_username }}"
-        admin_password: "{{ vm_admin_password }}"
-        network_interfaces: "{{ network_interface }}"
-        os_type: Windows
-        image:
-          offer: WindowsServer
-          publisher: MicrosoftWindowsServer
-          sku: 2022-Datacenter
-          version: latest
-        os_disk_name: demo_os_disk
-        os_disk_size_gb: 128
-        os_disk_caching: ReadWrite
-        managed_disk_type: Standard_LRS
-      register: result
+#     - name: Create Windows virtual machine
+#       azure.azcollection.azure_rm_virtualmachine:
+#         resource_group: "{{ resource_group }}"
+#         subscription_id: "{{ lookup('env', 'AZURE_SUBSCRIPTION_ID') }}"
+#         name: "{{ vm_name }}"
+#         vm_size: "{{ vm_size }}"
+#         admin_username: "{{ vm_admin_username }}"
+#         admin_password: "{{ vm_admin_password }}"
+#         network_interfaces: "{{ network_interface }}"
+#         os_type: Windows
+#         image:
+#           offer: WindowsServer
+#           publisher: MicrosoftWindowsServer
+#           sku: 2022-Datacenter
+#           version: latest
+#         os_disk_name: demo_os_disk
+#         os_disk_size_gb: 128
+#         os_disk_caching: ReadWrite
+#         managed_disk_type: Standard_LRS
+#       register: result
 
-    - ansible.builtin.debug:
-        msg: "{{ result }}"
+#     - ansible.builtin.debug:
+#         msg: "{{ result }}"
 ...
 
 

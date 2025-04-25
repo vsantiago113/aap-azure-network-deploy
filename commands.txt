@@ -1,8 +1,0 @@
-az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_SECRET --tenant $AZURE_TENANT
-
-az network watcher configure --locations centralus --enabled false
-
-az provider register --namespace Microsoft.Network
-az provider register --namespace Microsoft.Compute
-
-az provider show -n Microsoft.Compute --query "registrationState"
