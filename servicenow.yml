@@ -3,12 +3,12 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Simulate VM creation
-      ansible.builtin.set_fact:
-        instance:
-          name: test-vm99
-          managed_by: Ansible
-          public_ip_address: 192.168.1.99
+    # - name: Simulate VM creation
+    #   ansible.builtin.set_fact:
+    #     instance:
+    #       name: test-vm99
+    #       managed_by: Ansible
+    #       public_ip_address: 192.168.1.99
 
     - name: Register the newly-created VM instance
       servicenow.itsm.configuration_item:

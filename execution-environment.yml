@@ -85,6 +85,7 @@ dependencies:
       - name: microsoft.ad
       - name: community.general
       - name: azure.azcollection
+      - name: servicenow.itsm
   ansible_core:
       package_pip: ansible-core
   ansible_runner:
