@@ -2,6 +2,10 @@
 - name: Create CMDB entry for Azure host
   hosts: localhost
   gather_facts: false
+  
+  vars_files:
+    - ../vars/aap_survey.yml
+
   tasks:
     # - name: Simulate VM creation
     #   ansible.builtin.set_fact:
