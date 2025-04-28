@@ -6,6 +6,8 @@
     - [Register a Microsoft Entra app and create a service principal](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal)
     - [Ansible collection for Azure](https://galaxy.ansible.com/ui/repo/published/azure/azcollection/docs/)
     - [GitHub Azure](https://github.com/ansible-collections/azure/tree/dev)
+    - [Publishing an automation execution environment](https://docs.redhat.com/en/documentation/red_hat_ansible_automation_platform/2.4/html/creating_and_consuming_execution_environments/assembly-publishing-exec-env#proc-customize-ee-image)
+    - [Install the Azure CLI on Linux](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=dnf)
 
 1. System Requirements
     - python3
@@ -17,57 +19,6 @@
 1. Python Requirements
     - ansible-navigator
     - ansible-builder
-
-1. Ansible Navigator Config
-    ```yaml
-    ---
-    ansible-navigator:
-    execution-environment:
-        container-engine: podman
-        enabled: true
-        image: localhost/aap_2-5_demo:latest
-        pull:
-        arguments:
-            - "--tls-verify=false"
-        policy: never
-
-    images:
-        details:
-        - ansible_version
-        - python_version
-        - ansible_collections
-
-    logging:
-        level: critical
-        append: False
-        file: /tmp/ansible_navigator.txt
-
-    playbook-artifact:
-        enable: False
-
-    mode: stdout
-
-    ```
-
-!. Ansible Azure Credentials
-    ```txt
-    export AZURE_SUBSCRIPTION_ID="REDACTED"
-    export AZURE_CLIENT_ID="REDACTED"
-    export AZURE_SECRET="REDACTED"
-    export AZURE_TENANT="REDACTED"
-    ```
-
-1. Ansible ServiceNow Credentials
-    ```txt
-    export SN_HOST='REDACTED'
-    export SN_USERNAME='REDACTED'
-    export SN_PASSWORD='REDACTED'
-    ```
-
-1. How to build execution environment
-    ```bash
-    ansible-builder build -f execution-environment-aap-2.5-demo.yml -t azure_demo_ee
-    ```
 
 1. Azure CLI Commands
     ```bash

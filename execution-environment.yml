@@ -13,6 +13,11 @@ dependencies:
     - openssl-devel [platform:rpm]
     - sshpass [platform:rpm]
   python:
+    - future
+    - six
+    - pywinrm
+    - ansible-pylibssh
+    - azure-cli
     - packaging
     - requests[security]
     - xmltodict

@@ -8,6 +8,15 @@ ansible-navigator:
       arguments:
         - "--tls-verify=false"
       policy: never
+    environment-variables:
+      pass:
+        - AZURE_SUBSCRIPTION_ID
+        - AZURE_CLIENT_ID
+        - AZURE_SECRET
+        - AZURE_TENANT
+        - SN_HOST
+        - SN_USERNAME
+        - SN_PASSWORD
 
   images:
     details:
