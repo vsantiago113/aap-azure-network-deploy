@@ -12,11 +12,11 @@
 
     - name: Register the newly-created VM instance
       servicenow.itsm.configuration_item:
-        name: "{{ instance.name }}"
+        name: "{{ vm_name }}"
         sys_class_name: cmdb_ci_vm_instance
-        ip_address: "{{ instance.public_ip_address }}"
+        ip_address: '10.0.0.2'
         other:
-          managed_by: "{{ instance.managed_by }}"
+          managed_by: Managed by Ansible
       register: result
 
     - name: Show sys_id
